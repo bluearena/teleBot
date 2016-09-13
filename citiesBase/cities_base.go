@@ -36,15 +36,12 @@ func (db DataBase) FindCityOnLetter(letter string, chatID int64) (string, int) {
 		db.createTempTable(chatID)
 	}
 
-	sql := "SELECT name FROM cities as t1 LEFT JOIN id_ WHERE name LIKE '" + letter + "%';"
-	stmt, err := db.conn.Prepare("SELECT name FROM cities as t1 LEFT JOIN id_? WHERE name LIKE '?%';")
+	s, err := db.conn.Prepare("SELECT name FROM cities as t1 LEFT JOIN id_? WHERE name LIKE '?%';")
 	if err != nil {
 		log.Panicf("Can not prepare request: %s", err)
 	}
 
-	stmt.Query(chatID, letter)
-
-	for s, err := stmt.Query(chatID, letter); err == nil; err = s.Next() {
+	for err := s.Query(chatID, letter); err == nil; err = s.Next() {
 		var city string
 		s.Scan(&city)
 		return city, cityIsFound

@@ -11,13 +11,13 @@ func TestSimpleFind(t *testing.T) {
 		t.Fatal("Can not open database")
 	}
 	lett := "А"
-	city, res := ciB.FindCityOnLetter(lett)
+	city, res := ciB.FindCityOnLetter(lett, 1)
 	log.Print(city)
 	if res != cityIsFound {
 		t.Fatal("Can not find \"А\" city")
 	}
 
-	city, res = ciB.FindCityOnLetter("ы")
+	city, res = ciB.FindCityOnLetter("ы", 1)
 	log.Print(city)
 	if res != cityDoesNotExist {
 		t.Fatal("Can not find \"ы\" city")
